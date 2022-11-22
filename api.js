@@ -6,9 +6,10 @@ const options = {
 	}
 }; 
 
-let url = 'https://netflix-api3.p.rapidapi.com/year/1999';
+let url = 'https://netflix-api3.p.rapidapi.com/year/2020';
 
 let inputCountryUser = "United States";
+let inputGenreUser = "Dramas";
 
 function getDataInfo() {
         fetch(url, options)
@@ -24,22 +25,32 @@ function getDataInfo() {
 }
 
 getDataInfo()
-function getTitleByCountryandTitle (country, title){
+function getTitleByCountryandTitle (country, title, listedIn){
 let titleResult = [];
     for (i = 0; i < country.length; i++){
-        if (inputCountryUser == country[i]){
-            titleResult.push(title[i])
-        }
+        if (inputCountryUser == country[i] && inputGenreUser == listedIn[i]){
+            titleResult.push(title[i]);
+        /*} else if (inputCountryUser == country[i] && typeof(inputGenreUser) == null){
+			titleResult.push(title[i]);
+		} else if (typeof(inputCountryUser) == null && inputGenreUser == listedIn[i]){
+			titleResult.push(title[i]);
+		} else if (typeof(inputCountryUser) == null && typeof(inputGenreUser) == null){
+			statement = 'Veuillez choisir un pays ou un genre'*/
+		}
     }
     console.log(titleResult);
+	console.log(statement);
 }
+
 
 function searchDataBase (jsonData){
     let countryList = [];
     let titleList = [];
+	let listedInlist = [];
     for (i = 0; i < jsonData.length; i++){
         countryList.push(jsonData[i].country)
         titleList.push(jsonData[i].title)
+		listedInlist.push(jsonData[i].listedIn)
     }
-    getTitleByCountryandTitle (countryList, titleList);
+    getTitleByCountryandTitle (countryList, titleList, listedInlist);
 }
