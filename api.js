@@ -7,33 +7,33 @@ const options = {
 	}
 };
 let url = 'https://netflix-api3.p.rapidapi.com/year/2021'
-let urlTab = url.split("/")
-// ====================== avoir inpur search et button serach par année
-let years = document.getElementById("years")
-let buttonYears = document.getElementById("validationYears")
+let urlTab = url.split("/")// Transformer url en tableau
 
-// ====================== collback pour récuperer année
+// ====================== avoir input search et button serach par année
+let years = document.getElementById("years")//bar du recherche
+let buttonYears = document.getElementById("validationYears")//button
+
+// == Collback event: à chaque click sur button envoie ce qui est dans bar du recherch
 buttonYears.addEventListener('click', e => {
-	
-	// ==================== Changer la valeur du url après utlisateur
+	// ajouter une condition qui prendre juste des chiffre et 4 chiffre, sinon affiche "votre demande ne pas trouvée"
+	// ==================== index 4 = aaaa qui prendre la valeur donnée par utilisateur
 	urlTab[4] = years.value
-	// ==================== recréer un neauveau url
+	// ==================== transférer tableau en url
 	let urlFinal = urlTab.join("/")
-	console.log('----------------------->',urlFinal)
-	getAPIinfo(urlFinal, options)
+	console.log('----------------------->',urlFinal)// chaeck nouveu url
+	getAPIinfo(urlFinal, options) // utiliser pour fetch
 })
 
-// ======================= Avoir récuperé api avec ferch
+// ======================= Avoir récuperé api avec fetch
 function getAPIinfo(url, options){
-	console.log("---------",url)
+	console.log("---------",url)//cheack api
+	// à sancronne pour api
 	fetch(url, options)
 		.then(response => {
-			return response.json()
+			return response.json()// trensformer type donnée en json
 		})
 		.then(data => {
-			console.log(data)
+			console.log(data)//cheack les donnée
 		})
-		.catch(err => console.error(err));
+		.catch(err => console.error(err)); // retourner erreur si ne pas fonction data
 }
-
-
