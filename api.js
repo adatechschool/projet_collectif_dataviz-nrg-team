@@ -6,35 +6,51 @@ const options = {
 	}
 }; 
 
-fetch('https://netflix-api3.p.rapidapi.com/year/2020', options)
-	.then(response => response.json())
-	.then(data => data[0].director)
-	.catch(err => console.error(err));
+let url = 'https://netflix-api3.p.rapidapi.com/year/2020';
 
-console.log(data[0])
+let inputCountryUser = "United States";
+let inputGenreUser = "Dramas";
 
-
-//////
-
-function updateHTMLWithData(data) {
-	console.log(data[0].director)
-	document.getElementsByClassName('news')[0].textContent = data
+function getDataInfo() {
+        fetch(url, options)
+            .then((response) => {
+                return response.json()
+            })
+            .then ((jsonData) => {
+                searchDataBase(jsonData)
+            })
+            .catch ((err) => {
+                console.log(err);
+            })
 }
 
-function getAPIinfo() {
-	let url = 'https://....'
-	fetch(url, options)
-		.then((response) => {
-			return response.json()
-		})
-		.then((jsonData) => {
-			console.log(jsonData)
-			updateHTMLWithData(jsonData)
-		})
-		.catch((err) => {
-			console.log('Une erreur est survenue')
-			console.error(err)
-		})
+getDataInfo()
+function getTitleByCountryandTitle (country, title, listedIn){
+let titleResult = [];
+    for (i = 0; i < country.length; i++){
+        if (inputCountryUser == country[i] && inputGenreUser == listedIn[i]){
+            titleResult.push(title[i]);
+        /*} else if (inputCountryUser == country[i] && typeof(inputGenreUser) == null){
+			titleResult.push(title[i]);
+		} else if (typeof(inputCountryUser) == null && inputGenreUser == listedIn[i]){
+			titleResult.push(title[i]);
+		} else if (typeof(inputCountryUser) == null && typeof(inputGenreUser) == null){
+			statement = 'Veuillez choisir un pays ou un genre'*/
+		}
+    }
+    console.log(titleResult);
+	console.log(statement);
 }
 
-getAPIinfo()
+
+function searchDataBase (jsonData){
+    let countryList = [];
+    let titleList = [];
+	let listedInlist = [];
+    for (i = 0; i < jsonData.length; i++){
+        countryList.push(jsonData[i].country)
+        titleList.push(jsonData[i].title)
+		listedInlist.push(jsonData[i].listedIn)
+    }
+    getTitleByCountryandTitle (countryList, titleList, listedInlist);
+}
