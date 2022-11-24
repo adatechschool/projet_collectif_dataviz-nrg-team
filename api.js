@@ -46,7 +46,7 @@ function getTitleByCountryandTitle (country, title, listedIn){
 	console.log(inputCountryUser.value)
 let titleResult = [];
     for (i = 0; i < country.length; i++){
-        if (inputCountryUser.value == country[i] && inputGenreUser.value == listedIn[i]){
+        if (country[i].includes(inputCountryUser.value) == true && listedIn[i].includes(inputGenreUser.value) == true){
             titleResult.push(title[i]);
         /*} else if (inputCountryUser == country[i] && typeof(inputGenreUser) == null){
 			titleResult.push(title[i]);
