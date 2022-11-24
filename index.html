@@ -9,18 +9,23 @@
 <body>
     <p id="news"> </p>
     <div class="search-wrapper">
-        <label for="yearsearchbar">Year Search</label>
-            <input type="text" id="years" value="">
-        <label for="Countrysearchbar">Country Search</label>
-            <input type="text" id="countrysearchbar" value="">
-        <label for="genresfilter">Genres Filter</label>
-            <select name="genres" id="genresfilter">
+        <li><label for="yearsearchbar">Year Search</label></li>
+            <li><input type="text" id="years" value=""></li>
+        <li><label for="countrysearchbar">Country Search</label></li>
+            <li><input type="text" id="countrysearchbar" value=""></li>
+        <li><label for="genresfilter">Genres Filter</label></li>
+            <li><select name="genres" id="genresfilter"></li>
                 <option value=""> -- Choose movie genre -- </option>
                 <option value="Dramas">Dramas</option>
                 <option value="Comedies">Comedies</option>
                 <option value="Documentaries">Documentaries</option>
             </select>
-        <input type="button" id="validationYears" value="click">
+        <li><label for="directorsearchbar">Director Search</label></li>
+            <li><input type="text" id="directorsearchbar" value=""></li>
+        <li><input type="button" id="validationYears" value="click"></li>
+        <li><label for="filmresults">Movies matching your search</label></li>
+        <table id="filmresults"></table>
+            
     </div>
     <script src="api.js"></script>
 </body>
