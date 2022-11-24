@@ -11,7 +11,10 @@ let urlTab = url.split("/")// Transformer url en tableau
 // ======================================== Rouh
 // ====================== avoir input search et button serach par année
 let years = document.getElementById("years")//bar du recherche
-let buttonYears = document.getElementById("validationYears")//button
+let inputCountryUser = document.getElementById("countrysearchbar");
+let inputGenreUser = document.getElementById("genresfilter");
+let buttonYears = document.getElementById("validationYears");//bouton
+
 
 // == Collback event: à chaque click sur button envoie ce qui est dans bar du recherch
 buttonYears.addEventListener('click', e => {
@@ -27,26 +30,23 @@ buttonYears.addEventListener('click', e => {
 // ======================= Avoir récuperé api avec fetch
 function getAPIinfo(url, options){
 	console.log("---------",url)//cheack api
-	// à sancronne pour api
+	// asycrhone pour api
 	fetch(url, options)
 		.then(response => {
 			return response.json()// trensformer type donnée en json
 		})
 		.then(data => {
 			searchDataBase(data)
-			console.log(data)//cheack les donnée
+			//console.log(data)//cheack les donnée
 		})
 		.catch(err => console.error(err)); // retourner erreur si ne pas fonction data
 }
 
-// ========================================= Gabriel
-let inputCountryUser = "United States";
-let inputGenreUser = "Dramas";
-
 function getTitleByCountryandTitle (country, title, listedIn){
+	console.log(inputCountryUser.value)
 let titleResult = [];
     for (i = 0; i < country.length; i++){
-        if (inputCountryUser == country[i] && inputGenreUser == listedIn[i]){
+        if (inputCountryUser.value == country[i] && inputGenreUser.value == listedIn[i]){
             titleResult.push(title[i]);
         /*} else if (inputCountryUser == country[i] && typeof(inputGenreUser) == null){
 			titleResult.push(title[i]);

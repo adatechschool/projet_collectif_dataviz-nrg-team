@@ -8,8 +8,20 @@
 </head>
 <body>
     <p id="news"> </p>
-    <input type="text" id="years" value="">
-    <input type="button" id="validationYears" value="click">
+    <div class="search-wrapper">
+        <label for="yearsearchbar">Year Search</label>
+            <input type="text" id="years" value="">
+        <label for="Countrysearchbar">Country Search</label>
+            <input type="text" id="countrysearchbar" value="">
+        <label for="genresfilter">Genres Filter</label>
+            <select name="genres" id="genresfilter">
+                <option value=""> -- Choose movie genre -- </option>
+                <option value="Dramas">Dramas</option>
+                <option value="Comedies">Comedies</option>
+                <option value="Documentaries">Documentaries</option>
+            </select>
+        <input type="button" id="validationYears" value="click">
+    </div>
     <script src="api.js"></script>
 </body>
 </html>
