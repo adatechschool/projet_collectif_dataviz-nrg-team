@@ -51,11 +51,9 @@ let titleResult = [];
 			country[i].includes(inputCountryUser.value) == true && 
 			listedIn[i].includes(inputGenreUser.value) == true &&
 			director[i].includes(inputDirectorUser.value) ==true){
-            titleResult.push(title[i]);
+            titleResult.push(title[i] +  " -- Director: " + director[i]);
 		}
     }
-    
-
 	document.getElementById("filmresults").innerHTML = titleResult.join("<br>");
 	console.log(titleResult);
 	//console.log(directorResult);
