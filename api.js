@@ -13,6 +13,7 @@ let urlTab = url.split("/")// Transformer url en tableau
 let years = document.getElementById("years")//bar du recherche
 let inputCountryUser = document.getElementById("countrysearchbar");
 let inputGenreUser = document.getElementById("genresfilter");
+let inputDirectorUser = document.getElementById("directorsearchbar");
 let buttonYears = document.getElementById("validationYears");//bouton
 
 
@@ -42,21 +43,20 @@ function getAPIinfo(url, options){
 		.catch(err => console.error(err)); // retourner erreur si ne pas fonction data
 }
 
-function getTitleByCountryandTitle (country, title, listedIn){
+function getTitleByCountryandTitle (country, title, listedIn, director){
 	console.log(inputCountryUser.value)
 let titleResult = [];
     for (i = 0; i < country.length; i++){
-        if (country[i].includes(inputCountryUser.value) == true && listedIn[i].includes(inputGenreUser.value) == true){
-            titleResult.push(title[i]);
-        /*} else if (inputCountryUser == country[i] && typeof(inputGenreUser) == null){
-			titleResult.push(title[i]);
-		} else if (typeof(inputCountryUser) == null && inputGenreUser == listedIn[i]){
-			titleResult.push(title[i]);
-		} else if (typeof(inputCountryUser) == null && typeof(inputGenreUser) == null){
-			statement = 'Veuillez choisir un pays ou un genre'*/
+        if (
+			country[i].includes(inputCountryUser.value) == true && 
+			listedIn[i].includes(inputGenreUser.value) == true &&
+			director[i].includes(inputDirectorUser.value) ==true){
+            titleResult.push(title[i] +  " -- Director: " + director[i]);
 		}
     }
-    console.log(titleResult);
+	document.getElementById("filmresults").innerHTML = titleResult.join("<br>");
+	console.log(titleResult);
+	//console.log(directorResult);
 }
 
 
@@ -64,10 +64,12 @@ function searchDataBase (jsonData){
     let countryList = [];
     let titleList = [];
 	let listedInlist = [];
+	let directorList = [];
     for (i = 0; i < jsonData.length; i++){
         countryList.push(jsonData[i].country)
         titleList.push(jsonData[i].title)
 		listedInlist.push(jsonData[i].listedIn)
+		directorList.push(jsonData [i].director)
     }
-    getTitleByCountryandTitle (countryList, titleList, listedInlist);
+    getTitleByCountryandTitle (countryList, titleList, listedInlist, directorList);
 }
