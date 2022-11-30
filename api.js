@@ -88,8 +88,6 @@ function groupDataObjectsInOneArray(array){
 }
 
 // Cette fonction filtre les objets de l'API Netflix en fonction des inputs rentrés par les utilisateurs. 
-
-
 function filterObjectsFromInputUser (array){
 
 let arrayofResultsObjectsFromFilter = [];
