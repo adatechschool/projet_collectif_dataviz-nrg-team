@@ -15,7 +15,7 @@ li
     list-style-type: none;
 }
 
-input[type=button] {    
+button[type=submit] {    
     color:white;
     background-color:black;
     font-weight:bold;
@@ -24,7 +24,7 @@ input[type=button] {
     margin-top:60px;
     margin-right:530px;
 }
-input[type=button]:hover
+button[type=submit]:hover
 {
     background-color: #ff9100;
     border:3px inset orangered;

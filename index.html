@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    <body>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,14 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Film</title>
 </head>
-<body>
-    <header>API films Netflix <img src="images/logoAPI.png" alt="logo du site"/> </header> 
-
+<header>
+    <h1> API Netflix Movies</h1>
+    <h1> <img src="images/logoAPI.png" class=logo alt="logo du site"> </h1>
+</header> 
     <p id="news"> </p>
-
-    <div class="search-wrapper">
-        <li><label for="yearsearchbar">Year Search</label></li>
-            <li><select name="yearsfilter" id="years"></li>
+    <div class="rangee1">
+      <div class="year">
+        <div class="search-wrapper">
+           <label for="yearsearchbar">Year Search</label>
+             <select name="yearsfilter" id="years">
                 <option value=""> -- Choose movie year -- </option>
                 <option value="2020">2020's</option>
                 <option value="2010">2010's</option>
@@ -25,10 +28,14 @@
                 <option value="1960">1960's</option>
                 <option value="1950">1950's</option>
                 </select>
-        <li><label for="countrysearchbar">Country Search</label></li>
-            <li><input type="text" id="countrysearchbar" value=""></li>
-        <li><label for="genresfilter">Genres Filter</label></li>
-            <li><select name="genres" id="genresfilter"></li>
+            </div>
+            <div class="country">
+          <label for="countrysearchbar">Country Search</label>
+             <input type="text" id="countrysearchbar" value="">
+            </div>
+            <div class="genre">
+           <label for="genresfilter">Genres Filter</label>
+             <select name="genres" id="genresfilter">
                 <option value=""> -- Choose movie genre -- </option>
                 <option value="Dramas">Dramas</option>
                 <option value="Comedie">Comedies</option>
@@ -44,13 +51,33 @@
                 <option value="Thrillers">Thrillers</option>
                 <option value="TV Shows">TV Shows</option>
             </select>
-        <li><label for="directorsearchbar">Director Search</label></li>
-            <li><input type="text" id="directorsearchbar" value=""></li>
-        <li><button type="submit" id="validationSearch" value="click">Search</button></li>
-        <li><label for="filmresults">Movies matching your search</label></li>
+        </div>
+        <div class="director"> 
+        <label for="directorsearchbar">Director Search</label>
+            <input type="text" id="directorsearchbar" value="">
+        </div> 
+    </div> 
+        <div class="buttons"> 
+            <div class="buttonPlus">
+        <button type="submit" id="validationSearch" value="click">Search</button>
+    </div> 
+</div>
+<div class="result"> 
+        <label for="filmresults">Movies matching your search</label>
         <table id="filmresults"></table>
-            
+    </div>  
     </div>      
     <script src="api.js"></script>
-</body>
-</html>
+    <footer>
+        <div class="footerContenu">
+        <p> <div class="fb"> <a href="https://facebook.com"><img src="images/facebook.png" alt="Facebook"/></a> </div>
+            <div class="twit"><a href="https://twitter.com"><img src="images/twitter.png" alt="Twitter"/></a> </div>
+            <div class="insta"><a href="https://instagram.com"><img src="images/instagram.png" alt="instagram"/></a></div>
+        </div>
+            Copyright Api Netflix - Tous droits réservés<br />
+            Contacter Api Netflix par <a href="mailto:SupportApiNetflix@gmail.com" tittle="SupportApiNetflix@gmail.com">e-mail</a>
+        </p>
+      </footer>
+    </body>
+    
+    </html>
