@@ -1,131 +1,110 @@
-// ==================== Avoir api
-const options = {
-	method: 'GET',
+// Données utilisateur ==================================
+
+let inputYearsUser = document.getElementById("years"); // Demander l'année à l'utilisateur
+let inputCountryUser = document.getElementById("countrysearchbar"); // Demander le pays à l'utilisateur
+let inputGenreUser = document.getElementById("genresfilter") // Demander le genre à l'utilisateur
+let inputDirectorUser = document.getElementById("directorsearchbar"); // Demander le réalisateur à l'utilisateur
+let buttonSearch = document.getElementById("validationSearch") // Lancer la recherche
+
+
+
+
+// Déclencher l'évènement CLICK
+buttonSearch.addEventListener('click', e => {
+
+groupDataFromNetflix (createNetflixUrlForDecade(urlNetflix), optionsNetflix);
+
+})
+
+
+
+
+// Créer un tableau d'URL pour une décennie =============
+
+let urlNetflix = 'https://netflix-api3.p.rapidapi.com/year/2021' // Url de base de l'api Netflix.
+let decadeUrlNetflixArr = []; // Créer le tableau d'urls pour la décennie
+
+// La fonction createNetflixUrlForDecade créer un tableau de 10 url correspondant à la décennie choisie par l'utilisateur. Elle commence par vider ce tableau s'il était plein auparavant.
+function createNetflixUrlForDecade (url){ 
+    decadeUrlNetflixArr.splice(0,decadeUrlNetflixArr.length);
+
+    let cutUrl = url.split("/"); 
+    let endfOfUrl = "";
+
+    for (i = parseInt(inputYearsUser.value); i < parseInt(inputYearsUser.value) + 10; i++){
+        
+        cutUrl[4] = i;
+        endfOfUrl = cutUrl[4].toString();
+        decadeUrlNetflixArr.push(endfOfUrl);
+    }
+    return decadeUrlNetflixArr;
+    
+}
+// NETFLIX ==============================================
+
+const optionsNetflix = {
+
+    method: 'GET',
 	headers: {
 		'X-RapidAPI-Key': '6c3825cd5dmsh566a0d01b2db89fp1c843cjsn018abed16448',
 		'X-RapidAPI-Host': 'netflix-api3.p.rapidapi.com'
 	}
-};
-let url = 'https://netflix-api3.p.rapidapi.com/year/2021'
-let urlTab = url.split("/")// Transformer url en tableau
-// ======================================== Rouh
-// ====================== avoir input search et button serach par année
-let years = document.getElementById("years")//bar du recherche
-let inputCountryUser = document.getElementById("countrysearchbar");
-let inputGenreUser = document.getElementById("genresfilter");
-let inputDirectorUser = document.getElementById("directorsearchbar");
-let buttonYears = document.getElementById("validationYears");//bouton
 
-
-// == Collback event: à chaque click sur button envoie ce qui est dans bar du recherch
-buttonYears.addEventListener('click', e => {
-	// ajouter une condition qui prendre juste des chiffre et 4 chiffre, sinon affiche "votre demande ne pas trouvée"
-	// ==================== index 4 = aaaa qui prendre la valeur donnée par utilisateur
-	urlTab[4] = years.value
-	
-	// ==================== transférer tableau en url
-	let urlFinal = urlTab.join("/")
-	console.log('----------------------->',urlFinal)// chaeck nouveu url
-	getAPIinfo(urlFinal, options) // utiliser pour fetch
-})
-
-// ======================= Avoir récuperé api avec fetch
-function getAPIinfo(url, options){
-
-	fetch(url, options)
-		.then(response => {
-			
-			return response.json()// trensformer type donnée en json
-
-		})
-		.then(data => {
-
-			searchDataBase(data)
-			
-			separateShowTvAndMovie(data)
-			
-		})
-		.catch(err => console.error(err)); // retourner erreur si ne pas fonction data
 }
 
-function getTitleByCountryandTitle (country, title, listedIn, director){
-	console.log(inputCountryUser.value)
-let titleResult = [];
-    for (i = 0; i < country.length; i++){
+// Cette fonction groupDataFromNetflix envoie une requête fetch pour chaque url d'un tableau d'url et récolte leurs données.
+
+let finalArrayOfNetflixObjects = [];
+let resultFromFilterObjects = [];
+
+function groupDataFromNetflix (arrays, options){
+
+    (async () => {
+        try {
+            const names = await Promise.all(
+                arrays.map(async(array) => {
+                    const response = await fetch(`https://netflix-api3.p.rapidapi.com/year/${array}`, options);
+                    
+                    const name = await response.json();
+                    return name;
+                })
+            )
+            finalArrayOfNetflixObjects = groupDataObjectsInOneArray(names);
+
+        } catch(e) {
+            console.log(e.messages);
+        }
+        //console.log(finalArrayOfNetflixObjects);
+        filterObjectsFromInputUser(finalArrayOfNetflixObjects);
+        
+    })()
+
+}
+
+// Cette fonction groupDataObjectsInOneArray regroupe le data récolté par groupDataFromNetflix en un seul tableau de résultat
+function groupDataObjectsInOneArray(array){
+    const arrayResult = array.flat();
+    return arrayResult;
+}
+
+// Cette fonction filtre les objets de l'API Netflix en fonction des inputs rentrés par les utilisateurs. 
+function filterObjectsFromInputUser (array){
+
+let arrayofResultsObjectsFromFilter = [];
+
+    for (i=0; i < array.length; i++){
+        
+
         if (
-			country[i].includes(inputCountryUser.value) == true && 
-			listedIn[i].includes(inputGenreUser.value) == true &&
-			director[i].includes(inputDirectorUser.value) ==true){
-            titleResult.push(title[i] +  " -- Director: " + director[i]);
-		}
+            array[i].country.includes(inputCountryUser.value) == true &&
+            array[i].listedIn.includes(inputGenreUser.value) == true &&
+            array[i].director.includes(inputDirectorUser.value) == true
+        ){
+            
+            arrayofResultsObjectsFromFilter.push(array[i]);
+    
+        }
     }
-	document.getElementById("filmresults").innerHTML = titleResult.join("<br>");
-	console.log(titleResult);
-	//console.log(directorResult);
-}
+    console.log(arrayofResultsObjectsFromFilter);
 
-
-function searchDataBase (jsonData){
-    let countryList = [];
-    let titleList = [];
-	let listedInlist = [];
-	let directorList = [];
-    for (i = 0; i < jsonData.length; i++){
-        countryList.push(jsonData[i].country)
-        titleList.push(jsonData[i].title)
-		listedInlist.push(jsonData[i].listedIn)
-		directorList.push(jsonData [i].director)
-    }
-    getTitleByCountryandTitle (countryList, titleList, listedInlist, directorList);
-}
-// ============================= Avoir les film à partir de l'année
-function separateShowTvAndMovie(data){
-	
-	let emissionTV = [""]
-	let film = [""]
-	let j = 0
-	
-// ========================== Parcourire de donnée pour récuperer chaque valeur qui ont besoin
-	let i = 0;
-	while(i<=data.length-1){
-
-		if(data[i].type == "TV Show"){// avoir les émission télé
-			
-			emissionTV[j] = data[i];
-
-			j++
-		}else if (data[i].type == "Movie"){//avoir les film
-			
-			film.push(data[i])
-		
-		}
-		i++
-	}
-	showTvToYears(emissionTV)
-	filmToYears(film)
-
-}
-
-let showTvAndFilm = document.getElementById("ShowTvAndFilm")// div qui contenir les émission télé et film 
-
-// ======================== Avoir les emission télé
-function showTvToYears(emissionTv){
-	
-	let i = 0;
-	while(i <= emissionTv.length-1){
-		let titleP = document.createElement("p")
-		let typeP = document.createElement("p")
-		titleP.innerText = emissionTv[i]["title"]
-		typeP.innerText = emissionTv[i]["type"]
-		showTvAndFilm.appendChild(titleP)
-		showTvAndFilm.appendChild(typeP)
-		
-		i++
-	}
-}
-
-
-// ======================== Avoir les film
-function filmToYears(film){
-	console.log("film: ", film)
 }
