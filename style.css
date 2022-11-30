@@ -29,7 +29,7 @@ button[type=submit]:hover
     background-color: #ff9100;
     border:3px inset orangered;
 }
-input,select,text {
+button,input,select,text {
     border-radius:10px;
 }
 label {
@@ -56,7 +56,6 @@ label {
 
 }
 */
-
 .buttons{
     display:flex;
     width:100%;

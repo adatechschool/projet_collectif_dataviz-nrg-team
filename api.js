@@ -55,7 +55,6 @@ const optionsNetflix = {
 // Cette fonction groupDataFromNetflix envoie une requête fetch pour chaque url d'un tableau d'url et récolte leurs données.
 
 let finalArrayOfNetflixObjects = [];
-let resultFromFilterObjects = [];
 
 function groupDataFromNetflix (arrays, options){
 
@@ -106,5 +105,6 @@ let arrayofResultsObjectsFromFilter = [];
         }
     }
     console.log(arrayofResultsObjectsFromFilter);
-
+	let compteur = arrayofResultsObjectsFromFilter.length;
+    document.body.innerHTML += compteur;
 }
