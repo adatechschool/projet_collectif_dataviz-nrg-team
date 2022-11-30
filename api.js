@@ -105,6 +105,105 @@ let arrayofResultsObjectsFromFilter = [];
     
         }
     }
-    console.log(arrayofResultsObjectsFromFilter);
+    createObjectFilm(arrayofResultsObjectsFromFilter);
 
 }
+
+// =========================== Cline html après chaque changement d'un api
+const removeChilds = (parent) => {
+    while (parent.lastChild) {
+        parent.removeChild(parent.lastChild);
+    }
+};
+
+// =========================== Avoir affiché les films sur page html
+function createObjectFilm(arrayofResultsObjectsFromFilter){
+
+	let DivParentfilmresults = document.getElementById("resultFilm");
+	removeChilds(DivParentfilmresults)
+
+    let longeurTableau = arrayofResultsObjectsFromFilter.length;
+    let finalMovieObjectTvShowDiv;
+    let finalMovieObjectMovieDiv;
+    let tvShowUl;
+    let movieUl;
+
+    let liType;
+    let liTitleAndYear;
+    let director;
+    let acteurs;
+    let genre;
+    let pays;
+    let resumer;
+
+    for (i = 0; i < longeurTableau; i++){
+
+		if(arrayofResultsObjectsFromFilter[i].type == "TV Show"){// avoir les émission télé
+
+            finalMovieObjectTvShowDiv = document.createElement("div")
+            finalMovieObjectTvShowDiv.className = "classFordevResult"
+            tvShowUl = document.createElement("ul")
+            liType = document.createElement("li")
+            liTitleAndYear = document.createElement("li")
+            director = document.createElement("li")
+            acteurs = document.createElement("li")
+            genre = document.createElement("li")
+            pays = document.createElement("li")
+            resumer = document.createElement("li")
+
+            liType.innerText = arrayofResultsObjectsFromFilter[i].type
+            liTitleAndYear.innerText = "Titre: " + arrayofResultsObjectsFromFilter[i].title + " " + arrayofResultsObjectsFromFilter[i].releaseYear
+            director.innerText = "Director: " + arrayofResultsObjectsFromFilter[i].director
+            acteurs.innerText = "Acteurs: " + arrayofResultsObjectsFromFilter[i].cast
+            genre.innerText = "Genre: " + arrayofResultsObjectsFromFilter[i].listedIn
+            pays.innerText = "Pays: " + arrayofResultsObjectsFromFilter[i].country
+            resumer.innerText = "Resumer: " + arrayofResultsObjectsFromFilter[i].description
+
+            tvShowUl.appendChild(liType)
+            tvShowUl.appendChild(liTitleAndYear)
+            tvShowUl.appendChild(director)
+            tvShowUl.appendChild(acteurs)
+            tvShowUl.appendChild(genre)
+            tvShowUl.appendChild(pays)
+            tvShowUl.appendChild(resumer)
+
+            finalMovieObjectTvShowDiv.appendChild(tvShowUl)// ajouter ul dans div
+            DivParentfilmresults.appendChild(finalMovieObjectTvShowDiv)//ajouter div enfant dand div parent
+
+		} else if(arrayofResultsObjectsFromFilter[i].type == "Movie"){// avoir les film
+            
+            finalMovieObjectMovieDiv = document.createElement("div")
+            finalMovieObjectMovieDiv.className = "classFordevResult"
+            movieUl = document.createElement("ul")
+
+            liType = document.createElement("li")
+            liTitleAndYear = document.createElement("li")
+            director = document.createElement("li")
+            acteurs = document.createElement("li")
+            genre = document.createElement("li")
+            pays = document.createElement("li")
+            resumer = document.createElement("li")
+
+            liType.innerText = arrayofResultsObjectsFromFilter[i].type
+            liTitleAndYear.innerText = "Titre: " + arrayofResultsObjectsFromFilter[i].title + " " + arrayofResultsObjectsFromFilter[i].releaseYear
+            director.innerText = "Director: " + arrayofResultsObjectsFromFilter[i].director
+            acteurs.innerText = "Acteurs: " + arrayofResultsObjectsFromFilter[i].cast
+            genre.innerText = "Genre: " + arrayofResultsObjectsFromFilter[i].listedIn
+            pays.innerText = "Pays: " + arrayofResultsObjectsFromFilter[i].country
+            resumer.innerText = "Resumer: " + arrayofResultsObjectsFromFilter[i].description
+
+            movieUl.appendChild(liType)
+            movieUl.appendChild(liTitleAndYear)
+            movieUl.appendChild(director)
+            movieUl.appendChild(acteurs)
+            movieUl.appendChild(genre)
+            movieUl.appendChild(pays)
+            movieUl.appendChild(resumer)
+
+            finalMovieObjectMovieDiv.appendChild(movieUl)
+            DivParentfilmresults.appendChild(finalMovieObjectMovieDiv)
+
+		}
+    }
+}
+
