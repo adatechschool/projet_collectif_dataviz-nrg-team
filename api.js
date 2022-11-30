@@ -22,7 +22,6 @@ buttonYears.addEventListener('click', e => {
 	// ajouter une condition qui prendre juste des chiffre et 4 chiffre, sinon affiche "votre demande ne pas trouvée"
 	// ==================== index 4 = aaaa qui prendre la valeur donnée par utilisateur
 	urlTab[4] = years.value
-	
 	// ==================== transférer tableau en url
 	let urlFinal = urlTab.join("/")
 	console.log('----------------------->',urlFinal)// chaeck nouveu url
@@ -31,19 +30,15 @@ buttonYears.addEventListener('click', e => {
 
 // ======================= Avoir récuperé api avec fetch
 function getAPIinfo(url, options){
-
+	console.log("---------",url)//cheack api
+	// asycrhone pour api
 	fetch(url, options)
 		.then(response => {
-			
 			return response.json()// trensformer type donnée en json
-
 		})
 		.then(data => {
-
 			searchDataBase(data)
-			
-			separateShowTvAndMovie(data)
-			
+			//console.log(data)//cheack les donnée
 		})
 		.catch(err => console.error(err)); // retourner erreur si ne pas fonction data
 }
@@ -77,55 +72,4 @@ function searchDataBase (jsonData){
 		directorList.push(jsonData [i].director)
     }
     getTitleByCountryandTitle (countryList, titleList, listedInlist, directorList);
-}
-// ============================= Avoir les film à partir de l'année
-function separateShowTvAndMovie(data){
-	
-	let emissionTV = [""]
-	let film = [""]
-	let j = 0
-	
-// ========================== Parcourire de donnée pour récuperer chaque valeur qui ont besoin
-	let i = 0;
-	while(i<=data.length-1){
-
-		if(data[i].type == "TV Show"){// avoir les émission télé
-			
-			emissionTV[j] = data[i];
-
-			j++
-		}else if (data[i].type == "Movie"){//avoir les film
-			
-			film.push(data[i])
-		
-		}
-		i++
-	}
-	showTvToYears(emissionTV)
-	filmToYears(film)
-
-}
-
-let showTvAndFilm = document.getElementById("ShowTvAndFilm")// div qui contenir les émission télé et film 
-
-// ======================== Avoir les emission télé
-function showTvToYears(emissionTv){
-	
-	let i = 0;
-	while(i <= emissionTv.length-1){
-		let titleP = document.createElement("p")
-		let typeP = document.createElement("p")
-		titleP.innerText = emissionTv[i]["title"]
-		typeP.innerText = emissionTv[i]["type"]
-		showTvAndFilm.appendChild(titleP)
-		showTvAndFilm.appendChild(typeP)
-		
-		i++
-	}
-}
-
-
-// ======================== Avoir les film
-function filmToYears(film){
-	console.log("film: ", film)
 }
