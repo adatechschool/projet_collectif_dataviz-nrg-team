@@ -40,7 +40,9 @@ function createNetflixUrlForDecade (url){
     return decadeUrlNetflixArr;
     
 }
-// NETFLIX ==============================================
+
+
+// OPTIONS POUR APIS
 
 const optionsNetflix = {
 
@@ -52,10 +54,20 @@ const optionsNetflix = {
 
 }
 
+const optionsMovieDataBase = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '6c3825cd5dmsh566a0d01b2db89fp1c843cjsn018abed16448',
+		'X-RapidAPI-Host': 'outking.p.rapidapi.com'
+	}
+};
+
+// NETFLIX ==============================================
+
+
 // Cette fonction groupDataFromNetflix envoie une requête fetch pour chaque url d'un tableau d'url et récolte leurs données.
 
 let finalArrayOfNetflixObjects = [];
-let resultFromFilterObjects = [];
 
 function groupDataFromNetflix (arrays, options){
 
@@ -74,12 +86,15 @@ function groupDataFromNetflix (arrays, options){
         } catch(e) {
             console.log(e.messages);
         }
-        //console.log(finalArrayOfNetflixObjects);
+        
         filterObjectsFromInputUser(finalArrayOfNetflixObjects);
         
     })()
 
 }
+
+
+
 
 // Cette fonction groupDataObjectsInOneArray regroupe le data récolté par groupDataFromNetflix en un seul tableau de résultat
 function groupDataObjectsInOneArray(array){
@@ -87,8 +102,13 @@ function groupDataObjectsInOneArray(array){
     return arrayResult;
 }
 
+
+
+
 // Cette fonction filtre les objets de l'API Netflix en fonction des inputs rentrés par les utilisateurs. 
+let titleNetflixToUrlMovieDataBase = [];
 function filterObjectsFromInputUser (array){
+
 
 let arrayofResultsObjectsFromFilter = [];
 
@@ -102,9 +122,68 @@ let arrayofResultsObjectsFromFilter = [];
         ){
             
             arrayofResultsObjectsFromFilter.push(array[i]);
-    
+            titleNetflixToUrlMovieDataBase.push(array[i].title);
         }
     }
-    console.log(arrayofResultsObjectsFromFilter);
+    
+    let UrlForMovieDataBase = createUrlMovieDataBaseFromArrayOfTitle(titleNetflixToUrlMovieDataBase);
+    //console.log(UrlForMovieDataBase);
+    getResultFromMovieDataBase(UrlForMovieDataBase, optionsMovieDataBase);
+}
 
+
+
+
+// Cette fonction créé un URL pour l'API de Movie DataBase à partir du titre du résultat de la recherche Netflix
+let urlMovieDataBaseOrigin = "https://api.themoviedb.org/3/search/movie?api_key=37be5d290801265a56611ad3b8802f85&query="
+let arrayOfTitleForUrlMovieDataBase = [];
+
+function createUrlMovieDataBaseFromArrayOfTitle (array){
+
+    for (i = 0; i < array.length; i++){
+
+        arrayOfTitleForUrlMovieDataBase.push(array[i].replace(/ /g, "+"));
+    }
+    return arrayOfTitleForUrlMovieDataBase;
+}
+
+// IMAGE FROM MOVIEDATABASE API ======================
+
+
+// Cette fonction ira chercher le poster de Movie Data Base 
+function getResultFromMovieDataBase (arrays, options){
+
+    (async () => {
+        try {
+            const names = await Promise.all(
+                arrays.map(async (array) => {
+                    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=37be5d290801265a56611ad3b8802f85&query=${array}`, options);
+                    const name = await response.json()
+                    return name
+                })
+            )
+            getPosterPathFromMovieDataBase(names)
+        } catch (e){
+            console.log(e.messages)
+        }
+    })()
+
+}
+
+
+// Cette fonction ira chercher le lien de l'image JPG correspondant au résultat de notre recherche et la stockera dans un tableau.
+let posterPathForMatches = []; 
+function getPosterPathFromMovieDataBase (array){
+    for (i = 0; i < array.length; i++){
+
+        if (
+            array[i].results[0] == null ||
+            array[i].results[0].poster_path == null
+            ){
+                posterPathForMatches.push(array[i].results[0].poster_path);
+            }
+        
+    }
+    console.log(posterPathForMatches);
+    return posterPathForMatches;
 }
