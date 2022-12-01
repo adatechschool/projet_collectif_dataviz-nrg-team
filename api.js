@@ -87,7 +87,8 @@ function groupDataFromNetflix (arrays, options){
             console.log(e.messages);
         }
         
-        filterObjectsFromInputUser(finalArrayOfNetflixObjects);
+        let resultatFinal = filterObjectsFromInputUser(finalArrayOfNetflixObjects);
+        console.log(resultatFinal);
         
     })()
 
@@ -129,6 +130,7 @@ let arrayofResultsObjectsFromFilter = [];
     let UrlForMovieDataBase = createUrlMovieDataBaseFromArrayOfTitle(titleNetflixToUrlMovieDataBase);
     //console.log(UrlForMovieDataBase);
     getResultFromMovieDataBase(UrlForMovieDataBase, optionsMovieDataBase);
+    return arrayofResultsObjectsFromFilter;
 }
 
 
@@ -175,15 +177,16 @@ function getResultFromMovieDataBase (arrays, options){
 let posterPathForMatches = []; 
 function getPosterPathFromMovieDataBase (array){
     for (i = 0; i < array.length; i++){
+        console.log(array[i].results[0].poster_path)
 
-        if (
-            array[i].results[0] == null ||
-            array[i].results[0].poster_path == null
-            ){
-                posterPathForMatches.push(array[i].results[0].poster_path);
-            }
+        // if (
+        //     array[i].results[0] == null ||
+        //     array[i].results[0].poster_path == null
+        //     ){
+        //         posterPathForMatches.push(array[i].results[0].poster_path);
+        //     }
         
     }
-    console.log(posterPathForMatches);
-    return posterPathForMatches;
+    // console.log(posterPathForMatches);
+    // return posterPathForMatches;
 }
